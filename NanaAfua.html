@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For You</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            padding: 15px 0;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 25px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            opacity: 0.7;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 1s;
+        }
+
+        section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ================= HOME ================= */
+
+        #home {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .home-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('homepage.jpeg') center center/cover no-repeat;
+            opacity: 0.3;
+            z-index: 1;
+            filter: brightness(0.6);
+        }
+
+        .home-note {
+            position: relative;
+            z-index: 2;
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 1.3;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .home-note span {
+            font-size: 20px;
+            display: block;
+            margin-top: 15px;
+            font-weight: normal;
+        }
+
+        /* ================= MEMORIES ================= */
+
+        #memories {
+            background: linear-gradient(to right, #ffdde1, #ee9ca7);
+            color: white;
+            padding-bottom: 80px;
+        }
+
+        #memories h1 {
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .memory-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .memory-item {
+            cursor: pointer;
+            text-align: center;
+            flex: 1 1 250px;
+            max-width: 300px;
+            transition: transform 0.3s ease;
+        }
+
+        .memory-item:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-note {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 15px;
+            transition: background 0.3s;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .memory-note:hover {
+            background: rgba(0,0,0,0.6);
+        }
+
+        /* Center expanding picture overlay */
+        .memory-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            cursor: pointer;
+        }
+
+        .memory-overlay img {
+            max-width: 85%;
+            max-height: 85%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            transform: scale(0.8);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+
+        .memory-overlay.show img {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* ================= LETTERS ================= */
+
+        #letters {
+            background: #f8cdda;
+            color: #fff;
+            padding-bottom: 80px;
+        }
+
+        #letters h1 {
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .letter {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            margin: 20px auto;
+            width: 60%;
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .letter:hover {
+            transform: scale(1.02);
+        }
+
+        .preview {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .letter-content {
+            max-height: 60px;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+        .letter.open .letter-content {
+            max-height: 500px;
+        }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            background: #ff6f91;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#memories">Memories</a>
+        <a href="#letters">Letters</a>
+    </div>
+
+    <!-- ================= HOME ================= -->
+    <section id="home">
+        <div class="home-background"></div>
+        <div class="home-note">
+            For You, With All My Heart
+            <span>A collection of moments, memories, and love letters</span>
+        </div>
+    </section>
+
+    <!-- ================= MEMORIES ================= -->
+    <section id="memories">
+        <h1>Our Memories</h1>
+
+        <div class="memory-grid">
+
+            <div class="memory-item">
+                <div class="memory-note" onclick="openMemoryPicture('memory 1.jpeg')">
+                    <h3>The First Walk</h3>
+Nana Afua, I remember the first time we actually spoke like it was yesterday. I had no idea how much you’d mean to me today. I’m so glad we went on the walk on 5th March, 2024. I’m so glad we went to get food on 5th March,2024. And above all, I’m so glad I met my heart in human form. I thank God each time I remember you.
+                </div>
+            </div>
+
+            <div class="memory-item">
+                <div class="memory-note" onclick="openMemoryPicture('memory 2.jpeg')">
+                    <h3>The pick-up</h3>
+Oh Afua, where do I begin? You picked me up in more ways than one. You’ve been my confidante, my sister and my best friend. 
+“A friend loves at all times, and a brother is born for a time of adversity.”
+‭‭Proverbs‬ ‭17‬:‭17‬ ‭NIV‬‬
+The Meredith to my Christina
+                </div>
+            </div>
+
+            <div class="memory-item">
+                <div class="memory-note" onclick="openMemoryPicture('memory 3.jpeg')">
+                    <h3>The sweetest</h3> 
+If you ever forget how important you are, just look at this.  You’re so beautiful in and out! You’re songs of Solomon 4:7 personified. 
+You’re beautiful, smart, loyal and the sweetest ever! 
+Never forget that
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Center overlay for memory picture -->
+    <div class="memory-overlay" id="memoryOverlay" onclick="closeMemoryPicture()">
+        <img id="memoryOverlayImg" src="">
+    </div>
+
+    <!-- ================= LETTERS ================= -->
+    <section id="letters">
+        <h1>Love Letters</h1>
+
+        <div class="letter" onclick="toggleLetter(this)">
+            <div class="preview"><h3>To my sister...</h3></div>
+            <div class="letter-content">
+                <i>“Sweet friendships refresh the soul and awaken our hearts with joy, for good friends are like the anointing oil that yields the fragrant incense of God's presence”</i>
+Each time I count my blessings, I count you twice! I’m so grateful to God for you! Thank you for choosing me every time! For being my best friend and confidante!
+I can’t and don’t want to imagine my life without you. We fight a lot but I wouldn’t trade you for anything fr. So on this Valentine’s Day, I want you to know how loved you are💘how cherished you are and how valued you are! 
+I love you so much my princess💘
+            </div>
+        </div>
+
+        <div class="letter" onclick="toggleLetter(this)">
+            <div class="preview">My Doctor...</div>
+            <div class="letter-content">
+                Doctor Nana Afua Asabea Quansah💘
+My beautiful doctor💘I’m so proud of your journey so far! You’re doing amazing my princess . You’re blessed beyond measure. Everything you touch is good. Doors are opening for you! Everything is aligning in your favor my princess💘you’re going to go places! 
+Keep going my princess! Forever rooting for you💘
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        Our Lovely Memories
+    </footer>
+
+    <!-- Lightbox for homepage or letters if needed -->
+    <div class="lightbox" onclick="closeLightbox()" id="lightbox">
+        <img id="lightbox-img">
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll("section");
+
+        window.addEventListener("scroll", () => {
+            sections.forEach(section => {
+                const position = section.getBoundingClientRect().top;
+                if (position < window.innerHeight - 100) {
+                    section.classList.add("show");
+                }
+            });
+        });
+
+        function openLightbox(src) {
+            document.getElementById("lightbox").style.display = "flex";
+            document.getElementById("lightbox-img").src = src;
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightbox").style.display = "none";
+        }
+
+        function toggleLetter(element) {
+            element.classList.toggle("open");
+        }
+
+        // ================= MEMORIES NOTE-FIRST CENTER =================
+        let currentMemoryOpen = null;
+        const overlay = document.getElementById("memoryOverlay");
+        const overlayImg = document.getElementById("memoryOverlayImg");
+
+        function openMemoryPicture(src) {
+            overlayImg.src = src;
+            overlay.style.display = "flex";
+
+            setTimeout(() => {
+                overlay.classList.add("show");
+            }, 20);
+
+            currentMemoryOpen = src;
+        }
+
+        function closeMemoryPicture() {
+            overlay.classList.remove("show");
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                overlayImg.src = "";
+            }, 400);
+
+            currentMemoryOpen = null;
+        }
+    </script>
+
+</body>
+</html>
